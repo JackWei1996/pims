@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pims.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.pims.entity.User">
+      <id column="id" property="id" />
+      <id column="name" property="name" />
+      <id column="password" property="password" />
+      <id column="phone" property="phone" />
+      <id column="email" property="email" />
+      <id column="id_card" property="idCard" />
+      <id column="company_id" property="companyId" />
+      <id column="post" property="post" />
+      <id column="role" property="role" />
+      <id column="create_time" property="createTime" jdbcType="DATE" />
+      <id column="update_time" property="updateTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, password, phone, email, id_card, company_id, post,role,
+    create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.pims.entity.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id}
+  </select>
+
+    <select id="getByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from user
+        where name = #{name} OR phone = #{name} LIMIT 1
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where id = #{id}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pims.entity.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pims.entity.User">
+    insert into user (id, name, password, phone, email, id_card, company_id, post,role,
+                      create_time, update_time)
+    values (#{id}, #{name}, #{password}, #{phone}, #{email}, #{idCard}, #{companyId}, #{post},
+            #{role},
+            #{createTime}, #{updateTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pims.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pims.entity.UserExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id},
+      password = #{record.password,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      company_id = #{record.companyId},
+      post = #{record.post,jdbcType=INTEGER}}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pims.entity.User">
+    update user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+          post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+          id_card = #{idCard},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pims.entity.User">
+    update user
+    set password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+        post = #{post,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR}}
+    where id = #{id}
+  </update>
+  
+  <select id="countAllUserByRoleId"
+		parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM
+		`user` u
+		LEFT JOIN user_role ur ON ur.user_id = u.id
+		WHERE
+		ur.role_id = #{roleId,jdbcType=INTEGER}
+	</select>
+
+	<select id="getAllUserByRoleId"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT u.*
+		FROM `user` u
+		LEFT JOIN user_role ur ON ur.user_id =
+		u.id
+		WHERE ur.role_id = #{roleId,jdbcType=INTEGER}
+		ORDER BY u.create_time DESC
+		<if test="count!=null">
+			limit #{begin}, #{count}
+		</if>
+	</select>
+
+	<select id="countAllUserByNotRoleId"
+		parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM
+		`user` u
+		LEFT JOIN user_role ur ON ur.user_id = u.id
+		WHERE
+		ISNULL(ur.role_id)
+	</select>
+
+	<select id="getAllUserByNotRoleId"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT u.*
+		FROM `user` u
+		LEFT JOIN user_role ur ON ur.user_id =
+		u.id
+		WHERE ISNULL(ur.role_id)
+		ORDER BY
+		u.create_time DESC
+		<if test="count!=null">
+			limit #{begin}, #{count}
+		</if>
+	</select>
+
+
+	<sql id="user_condition">
+		<where>
+			<if test="name!=null and name!=''">
+				and name like concat('%',#{name},'%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="getAllUserByLimit"
+		parameterType="com.pims.entity.UserParameter"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM `user`
+		<include refid="user_condition"></include>
+		ORDER BY create_time DESC
+		<if test="limit!=null">
+			limit #{page}, #{limit}
+		</if>
+	</select>
+
+	<select id="countAllUserByLimit"
+		parameterType="com.pims.entity.UserParameter" resultType="int">
+		SELECT COUNT(*)
+		FROM `user`
+		<include refid="user_condition"></include>
+	</select>
+
+	<select id="getAllDelUserByLimit"
+		parameterType="com.pims.entity.UserParameter"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM `user`
+		<include refid="user_condition"></include>
+		ORDER BY create_time DESC
+		<if test="limit!=null">
+			limit #{page}, #{limit}
+		</if>
+	</select>
+
+	<select id="countAllDelUserByLimit"
+		parameterType="com.pims.entity.UserParameter" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		<include refid="user_condition"></include>
+	</select>
+
+	<select id="getName" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT name
+		FROM user where id = #{id}
+	</select>
+
+	<select id="selectAllUser" parameterType="com.pims.entity.UserParameter" resultMap="BaseResultMap">
+	 select * from user
+	</select>
+
+    <select id="getUserByPhoneAndName"  resultMap="BaseResultMap">
+        select * from user
+        where name = #{name} and phone = #{phone}
+    </select>
+</mapper>
