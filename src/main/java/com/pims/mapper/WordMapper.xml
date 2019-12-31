@@ -315,4 +315,30 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllWordByLimit" resultMap="BaseResultMap">
+    select
+    *
+    from word
+      <where>
+        <if test="title != null and title!=''">
+          and title like concat('%',#{title},'%')
+        </if>
+      </where>
+    ORDER BY create_time DESC
+    <if test="limit!=null">
+      limit #{page}, #{limit}
+    </if>
+  </select>
+
+  <select id="countAllWordByLimit" resultType="int">
+    select
+    count(*)
+    from word
+    <where>
+      <if test="title != null and title!=''">
+        and title like concat('%',#{title},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

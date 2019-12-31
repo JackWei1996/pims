@@ -105,7 +105,8 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/index", "anon");
 		filterChainDefinitionMap.put("/home", "anon");
 		filterChainDefinitionMap.put("/open/**", "anon");
-
+		filterChainDefinitionMap.put("/upload/**", "anon");
+		filterChainDefinitionMap.put("/file/**", "anon");
 		// 静态资源设置为可访问
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/imgs/**", "anon");

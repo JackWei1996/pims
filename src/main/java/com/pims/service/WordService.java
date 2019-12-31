@@ -14,4 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WordService{
 
     void save(Word word);
+
+    Object getAllWordByLimit(Word word);
+
+    void delById(String id);
 }

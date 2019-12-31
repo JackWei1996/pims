@@ -35,4 +35,10 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+	//增加本地上传图片
+	config.image_previewText=' ';
+	//配置上传图片请求地址
+	config.filebrowserUploadUrl="/upload";
+
+
 };

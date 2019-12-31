@@ -3,6 +3,8 @@ package com.pims.mapper;
 import com.pims.entity.Company;
 import com.pims.entity.CompanyExample;
 import java.util.List;
+
+import com.pims.entity.Word;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -95,4 +97,8 @@ public interface CompanyMapper {
      * @mbg.generated Tue Dec 31 16:11:46 CST 2019
      */
     int updateByPrimaryKey(Company record);
+
+    List<Word> getAllCompanyByLimit(Company company);
+
+    int countAllCompanyByLimit(Company company);
 }

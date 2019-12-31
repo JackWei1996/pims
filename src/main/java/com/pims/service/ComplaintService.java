@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ComplaintService{
 
+    Object getAllComplaintByLimit(Complaint complaint);
+
+    void delById(String id);
+
+    void save(Complaint complaint);
+
+    void updateById(Complaint complaint);
 }

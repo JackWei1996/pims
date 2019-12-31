@@ -1,5 +1,6 @@
 package com.pims.mapper;
 
+import com.pims.entity.User;
 import com.pims.entity.Word;
 import com.pims.entity.WordExample;
 import java.util.List;
@@ -95,4 +96,8 @@ public interface WordMapper {
      * @mbg.generated Tue Dec 31 16:11:46 CST 2019
      */
     int updateByPrimaryKey(Word record);
+
+    List<Word> getAllWordByLimit(Word word);
+
+    int countAllWordByLimit(Word word);
 }

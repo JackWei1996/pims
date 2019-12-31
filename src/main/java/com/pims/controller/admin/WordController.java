@@ -2,6 +2,7 @@ package com.pims.controller.admin;
 
 
 import com.pims.entity.User;
+import com.pims.entity.UserParameter;
 import com.pims.entity.Word;
 import com.pims.service.WordService;
 import com.pims.service.impl.WordServiceImpl;
@@ -32,6 +33,10 @@ public class WordController {
         this.wordService = wordService;
     }
 
+    @RequestMapping("/list")
+    public String list() {
+        return "/sa/wordList";
+    }
     @RequestMapping("/publish")
     public String delUserPage() {
         return "/sa/word";
@@ -44,6 +49,26 @@ public class WordController {
             word.setCreateTime(new Date());
             word.setViewCount(0);
             wordService.save(word);
+            return "SUCCESS";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "ERR";
+        }
+    }
+
+    @RequestMapping("/getAllWordByLimit")
+    @ResponseBody
+    public Object getAllWordByLimit(Word word) {
+        return wordService.getAllWordByLimit(word);
+    }
+
+    @ResponseBody
+    @RequestMapping("/delWord")
+    public String delWord(String[] ids) {
+        try {
+            for (String id : ids){
+                wordService.delById(id);
+            }
             return "SUCCESS";
         } catch (Exception e) {
             e.printStackTrace();

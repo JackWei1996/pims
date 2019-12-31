@@ -347,4 +347,30 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllCompanyByLimit" resultMap="BaseResultMap">
+    select
+    *
+    from company
+    <where>
+      <if test="title != null and title!=''">
+        and title like concat('%',#{title},'%')
+      </if>
+    </where>
+    ORDER BY create_time DESC
+    <if test="limit!=null">
+      limit #{page}, #{limit}
+    </if>
+  </select>
+
+  <select id="countAllCompanyByLimit" resultType="int">
+    select
+    count(*)
+    from company
+    <where>
+      <if test="title != null and title!=''">
+        and title like concat('%',#{title},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

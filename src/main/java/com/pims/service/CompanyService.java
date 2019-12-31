@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CompanyService{
 
+    Object getAllCompanyByLimit(Company company);
+
+    void delById(String id);
+
+    void  save(Company company);
 }

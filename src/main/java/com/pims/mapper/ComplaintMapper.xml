@@ -362,4 +362,36 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllComplaintByLimit" resultMap="BaseResultMap">
+    select
+    *
+    from complaint
+    <where>
+      <if test="title != null and title!=''">
+        and title like concat('%',#{title},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+    </where>
+    ORDER BY create_time DESC
+    <if test="limit!=null">
+      limit #{page}, #{limit}
+    </if>
+  </select>
+
+  <select id="countAllComplaintByLimit" resultType="int">
+    select
+    count(*)
+    from complaint
+    <where>
+      <if test="title != null and title!=''">
+        and title like concat('%',#{title},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
 </mapper>

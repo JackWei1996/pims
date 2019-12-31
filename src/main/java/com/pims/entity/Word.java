@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Word implements Serializable {
+public class Word extends BaseBean implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
