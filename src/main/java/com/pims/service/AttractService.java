@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 园区招商管理系统
  * @since 2019-12-30
  */
-public interface AttractService extends IService<Attract> {
+public interface AttractService{
 
 }

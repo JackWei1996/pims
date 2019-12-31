@@ -1,9 +1,6 @@
 package com.pims.service.impl;
 
-import com.pims.entity.Attract;
-import com.pims.mapper.AttractMapper;
 import com.pims.service.AttractService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class AttractServiceImpl extends ServiceImpl<AttractMapper, Attract> implements AttractService {
+public class AttractServiceImpl implements AttractService {
 
 }

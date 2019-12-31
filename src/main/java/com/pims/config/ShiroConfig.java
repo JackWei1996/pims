@@ -103,11 +103,15 @@ public class ShiroConfig {
 		// 开放登陆接口
 		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/index", "anon");
+		filterChainDefinitionMap.put("/home", "anon");
+		filterChainDefinitionMap.put("/open/**", "anon");
+
 		// 静态资源设置为可访问
 		filterChainDefinitionMap.put("/css/**", "anon");
 		filterChainDefinitionMap.put("/imgs/**", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/plug/**", "anon");
+		filterChainDefinitionMap.put("/samples/**", "anon");
 		// 其余接口一律拦截
 		// 主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
 		filterChainDefinitionMap.put("/**", "anon");

@@ -1,9 +1,6 @@
 package com.pims.service.impl;
 
-import com.pims.entity.Contract;
-import com.pims.mapper.ContractMapper;
 import com.pims.service.ContractService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class ContractServiceImpl extends ServiceImpl<ContractMapper, Contract> implements ContractService {
+public class ContractServiceImpl  implements ContractService {
 
 }

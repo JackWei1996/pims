@@ -36,6 +36,11 @@
 			<!-- 打包到war包时用 -->
 			<!-- <scope>provided</scope> -->
 		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 		<!--mp代码生成-->
 		<dependency>
 			<groupId>com.baomidou</groupId>

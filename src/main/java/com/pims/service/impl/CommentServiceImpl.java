@@ -1,9 +1,6 @@
 package com.pims.service.impl;
 
-import com.pims.entity.Comment;
-import com.pims.mapper.CommentMapper;
 import com.pims.service.CommentService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+public class CommentServiceImpl implements CommentService {
 
 }

@@ -2,11 +2,11 @@ package com.pims.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import java.util.Date;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -49,12 +49,12 @@ public class Word implements Serializable {
     /**
      * 创建日期
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改日期
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

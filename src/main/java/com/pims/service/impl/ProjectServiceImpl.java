@@ -1,9 +1,7 @@
 package com.pims.service.impl;
 
-import com.pims.entity.Project;
-import com.pims.mapper.ProjectMapper;
+
 import com.pims.service.ProjectService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +13,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class ProjectServiceImpl extends ServiceImpl<ProjectMapper, Project> implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
 }

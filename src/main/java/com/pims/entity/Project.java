@@ -1,16 +1,18 @@
 package com.pims.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+        import com.baomidou.mybatisplus.annotation.IdType;
+        import com.baomidou.mybatisplus.annotation.TableId;
+        import java.time.LocalDateTime;
+        import java.io.Serializable;
+        import java.util.Date;
+
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 园区招商管理系统
@@ -54,12 +56,12 @@ public class Project implements Serializable {
     /**
      * 项目开始时间
      */
-    private LocalDateTime startTime;
+    private Date startTime;
 
     /**
      * 项目结束时间
      */
-    private LocalDateTime endTime;
+    private Date endTime;
 
     /**
      * 查看次数
@@ -74,12 +76,12 @@ public class Project implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }

@@ -1,9 +1,6 @@
 package com.pims.service.impl;
 
-import com.pims.entity.Complaint;
-import com.pims.mapper.ComplaintMapper;
 import com.pims.service.ComplaintService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint> implements ComplaintService {
+public class ComplaintServiceImpl implements ComplaintService {
 
 }

@@ -3,7 +3,7 @@ package com.pims.service.impl;
 import com.pims.entity.Word;
 import com.pims.mapper.WordMapper;
 import com.pims.service.WordService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,12 @@ import org.springframework.stereotype.Service;
  * @since 2019-12-30
  */
 @Service
-public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements WordService {
+public class WordServiceImpl implements WordService {
+    @Autowired
+    private WordMapper wordMapper;
 
+    @Override
+    public void save(Word word) {
+        wordMapper.insert(word);
+    }
 }
