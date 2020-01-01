@@ -94,7 +94,7 @@ $(function(){
                   }
               }},
 			   {title: '操作', name: 'id', width:40, renderer:function(val, item, rowIndex){
-				   var buttonStr =
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="doOne('+"\'"+item.id+"\'"+')" >处理</span>' +
 				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
@@ -139,6 +139,15 @@ function deleteRowOne(id){
     			}
     	    }
     	});
+	});
+}
+
+function doOne(id){
+	layer.open({
+	    type: 2,
+	    title: '处理意见',
+	    area: ['40%', '40%'],
+	    content: '/admin/company/doCompany?id='+id //iframe的url
 	});
 }
 </script>

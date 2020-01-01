@@ -2,9 +2,11 @@ package com.pims.controller.admin;
 
 
 import com.pims.entity.Company;
+import com.pims.entity.Complaint;
 import com.pims.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +31,12 @@ public class CompanyController {
         return "/sa/companyList";
     }
 
+    @RequestMapping("/doCompany")
+    public String doComplaint(Long id, Model model) {
+        model.addAttribute("cId", id);
+        return "/sa/doCompany";
+    }
+
     @RequestMapping("/getAllCompanyByLimit")
     @ResponseBody
     public Object getAllCompanyByLimit(Company company) {
@@ -42,6 +50,18 @@ public class CompanyController {
             for (String id : ids){
                 companyService.delById(id);
             }
+            return "SUCCESS";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "ERR";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/update")
+    public String update(Company company) {
+        try {
+            companyService.updateById(company);
             return "SUCCESS";
         } catch (Exception e) {
             e.printStackTrace();

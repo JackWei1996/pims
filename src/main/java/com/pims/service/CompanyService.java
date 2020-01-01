@@ -18,4 +18,6 @@ public interface CompanyService{
     void delById(String id);
 
     void  save(Company company);
+
+    void updateById(Company company);
 }
