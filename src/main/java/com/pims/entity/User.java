@@ -57,7 +57,7 @@ public class User implements Serializable {
      * 入住公司id
      */
     private Long companyId;
-
+    private String companyName;
     /**
      * 职位
      */

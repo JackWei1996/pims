@@ -5,17 +5,22 @@ import com.pims.entity.User;
 import com.pims.model.ResultMap;
 import com.pims.service.PageService;
 import com.pims.service.UserService;
+import com.pims.utils.MD5;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.sound.midi.Soundbank;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,6 +98,35 @@ public class LoginController {
 	@RequestMapping(value = "/index")
 	public String login() {
 		return "login";
+	}
+
+	@RequestMapping(value = "/regist")
+	public String regist() {
+		return "regist";
+	}
+
+	@RequestMapping(value = "/doRegist")
+	@ResponseBody
+	public ResultMap doRegist(User user) {
+		System.out.println(user);
+		User u = userService.getByIdCard(user.getIdCard());
+		if (u != null){
+			return resultMap.success().message("该身份证已注册!");
+		}
+		try {
+			user.setPassword(MD5.md5(user.getPassword()));
+			user.setRole(3);
+			if (!StringUtils.isEmpty(user.getCompanyName()) &&
+					!StringUtils.isEmpty(user.getPost()) ){
+				user.setRole(2);
+			}
+			user.setCreateTime(new Date());
+			userService.save(user);
+			return resultMap.success().message("注册成功");
+		}catch (Exception e){
+			e.printStackTrace();
+			return resultMap.fail().message("注册失败");
+		}
 	}
 
 	/**

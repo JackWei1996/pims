@@ -9,6 +9,7 @@
       <id column="email" property="email" />
       <id column="id_card" property="idCard" />
       <id column="company_id" property="companyId" />
+      <id column="company_name" property="companyName" />
       <id column="post" property="post" />
       <id column="role" property="role" />
       <id column="create_time" property="createTime" jdbcType="DATE" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, password, phone, email, id_card, company_id, post,role,
+    id, name, password, phone, email, id_card, company_id, post,role,company_name,
     create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.pims.entity.UserExample" resultMap="BaseResultMap">
@@ -114,10 +115,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pims.entity.User">
-    insert into user (id, name, password, phone, email, id_card, company_id, post,role,
+    insert into user (id, name, password, phone, email, id_card, company_id, post,role,company_name,
                       create_time, update_time)
     values (#{id}, #{name}, #{password}, #{phone}, #{email}, #{idCard}, #{companyId}, #{post},
-            #{role},
+            #{role},#{companyName},
             #{createTime}, #{updateTime})
   </insert>
   <insert id="insertSelective" parameterType="com.pims.entity.User">
@@ -132,6 +133,9 @@
       <if test="name != null">
         name,
       </if>
+        <if test="companyName != null">
+            company_name,
+        </if>
       <if test="phone != null">
         phone,
       </if>
@@ -146,9 +150,12 @@
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
       </if>
+        <if test="name != null">
+            #{name,jdbcType=VARCHAR},
+        </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
@@ -172,9 +179,12 @@
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.companyName != null">
+        name = #{record.companyName,jdbcType=VARCHAR},
       </if>
+        <if test="record.name != null">
+            name = #{record.name,jdbcType=VARCHAR},
+        </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -195,6 +205,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       id_card = #{record.idCard,jdbcType=VARCHAR},
       company_id = #{record.companyId},
+      company_name = #{record.companyName},
       post = #{record.post,jdbcType=INTEGER}}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -206,6 +217,9 @@
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
+        <if test="companyName != null">
+            company_name = #{companyName,jdbcType=VARCHAR},
+        </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -230,8 +244,8 @@
       name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-        post = #{post,jdbcType=VARCHAR},
-      idcard = #{idcard,jdbcType=VARCHAR}}
+      post = #{post,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR}
     where id = #{id}
   </update>
   
@@ -344,5 +358,10 @@
     <select id="getUserByPhoneAndName"  resultMap="BaseResultMap">
         select * from user
         where name = #{name} and phone = #{phone}
+    </select>
+
+    <select id="selectByIdCard"  resultMap="BaseResultMap">
+        select * from user
+        where id_card = #{idCard}
     </select>
 </mapper>

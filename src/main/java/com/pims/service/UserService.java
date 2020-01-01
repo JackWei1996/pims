@@ -44,4 +44,8 @@ public interface UserService {
 	List<User> selectAllUser();
 
 	User getUserByPhoneAndName(String phone, String name);
+
+    void save(User user);
+
+	User getByIdCard(String idCard);
 }

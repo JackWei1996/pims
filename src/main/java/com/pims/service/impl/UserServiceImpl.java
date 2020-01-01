@@ -413,4 +413,14 @@ public class UserServiceImpl implements UserService {
 	public User getUserByPhoneAndName(String phone, String name) {
 		return userMapper.getUserByPhoneAndName(phone, name);
 	}
+
+	@Override
+	public void save(User user) {
+		userMapper.insert(user);
+	}
+
+	@Override
+	public User getByIdCard(String idCard) {
+		return userMapper.selectByIdCard(idCard);
+	}
 }

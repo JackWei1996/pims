@@ -56,4 +56,6 @@ public interface UserMapper {
     User getByName(String username);
 
     User getUserByPhoneAndName(@Param("phone") String phone, @Param("name")String name);
+
+    User selectByIdCard(@Param("idCard") String idCard);
 }
