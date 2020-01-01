@@ -33,11 +33,13 @@ public interface UserMapper {
     
     int countAllUserByRoleId(Integer roleId);
     
-    List<User> getAllUserByRoleId(Integer roleId, Integer begin, Integer count);
+    List<User> getAllUserByRoleId(@Param("roleId") Integer roleId,
+                                  @Param("begin") Integer begin, @Param("count") Integer count);
 
 	int countAllUserByNotRoleId(Integer roleId);
 
-	List<User> getAllUserByNotRoleId(Integer roleId, Integer begin, Integer count);
+	List<User> getAllUserByNotRoleId(@Param("roleId") Integer roleId,
+                                     @Param("begin") Integer begin, @Param("count") Integer count);
 
 	String getName(@Param("userId") String userId);
 
