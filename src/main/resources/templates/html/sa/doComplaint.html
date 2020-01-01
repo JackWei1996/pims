@@ -84,7 +84,7 @@ function closeSelf(){
 function save(){
 	var param = new Object();
 	param.id = cId;
-	param.msg = $.trim($("#msg").val());
+	param.processMsg = $.trim($("#msg").val());
 	param.status = $.trim($("#status").val());
 	console.log(param);
 	var urlStr = "/admin/complaint/update";

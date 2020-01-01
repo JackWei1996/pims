@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>老师考勤管理</title>
+<title>公司管理</title>
 <link type="text/css" rel="stylesheet" th:href="@{/css/page.css}"/>
 <script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.js}"></script>
 <!-- mmGrid -->
@@ -29,19 +29,21 @@
 	<table class="param_table" style="margin-left:10px;" >
 		<tr>
 			<td style="width:150px;">
-				<span>开始时间：</span>
-				<input type="text" id="startTime" name="startTime" class="input_0" />
+				<span>公司名：</span>
+				<input type="text" id="name" name="name" class="input_0" />
 			</td>
 			<td style="width:150px;">
-				<span>结束时间：</span>
-				<input type="text" id="endTime" name="endTime" class="input_0" />
-			</td>
-			
-		
+                <span>状态：</span>
+                 <select id="status" name="status" class="input_0">
+                     <option value="-1">全部</option>
+                    <option value="0">未处理</option>
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+             </td>
 			<td style="">
 			<div class="layui-btn-group">
 			  <button class="layui-btn" onclick="search()">查询</button>
-			  
 			</div>
 			</td>
 		</tr>
@@ -55,24 +57,12 @@
 </body>
 </html>
 
-<script type="text/javascript" th:inline="javascript">
-layui.use('laydate', function(){
-	  var laydate = layui.laydate;
-	  
-	  //执行一个laydate实例
-	  laydate.render({
-	    elem: '#startTime' //指定元素
-	  });
-	  laydate.render({
-		elem: '#endTime' //指定元素
-	 });
-});
-
+<script type="text/javascript">
 $(function(){	
 	//表格
 	$('#exampleTableUser').mmGrid({
     	root:'rows',// 和后台数据保存列一致,对应MMGridPageVoBean rows
-		url:"/ls/getAllSignByLimit",
+		url:"/admin/company/getAllCompanyByLimit",
     	width: 'auto',
     	height: 'auto',
     	//checkCol: true,
@@ -82,52 +72,32 @@ $(function(){
         indexCol: true,  //索引列
         params:function(){
         	var param = new Object();
-       	
-        	param.startTime = $.trim($("#startTime").val());
-        	param.id = $.trim($("#id").val());
-        	param.endTime = $.trim($("#endTime").val());
-        
+        	param.name = $.trim($("#name").val());
+        	param.status = $.trim($("#status").val());
         	return param;
         },
         cols: [{title: 'ID', name: 'id', width:60, hidden:true},
-			   {title: '考勤人', name: 'userName', width:50},
-			   {title: '状态', name: 'state', width:50, renderer:function(val, item, rowIndex){
-				   if(val == 1){
-					   return "<span>正常</span>";
-				   }else if(val == 2){
-					   return "<span>提前</span>";
-				   }else if(val == 3){
-					   return "<span>迟到</span>";
-				   }else if(val == 4){
-					   return "<span>请假</span>";
-				   }else if(val == 5){
-					   return "<span>未知</span>";
-				   }
-			   }},
-			   {title: '考勤类型', name: 'type', width:50, renderer:function(val, item, rowIndex){
-				   if(val == 1){
-					   return "<span>签到</span>";
-				   }else if(val == 2){
-					   return "<span>签退</span>";
-				   }
-			   }},
-			   {title: '考勤人类型', name: 'kqrType', width:50, renderer:function(val, item, rowIndex){
-				   if(val == 1){
-					   return "<span>老师</span>";
-				   }else if(val == 2){
-					   return "<span>学生</span>";
-				   }else if(val == 3){
-					   return "<span>家长</span>";
-				   }
-			   }},
-			   {title: '签到时间', name: 'signIn', width:50, renderer:function(val, item, rowIndex){
-				   if(val){
-					   return (""+val).split(" ")[0];
-				   }
-				   return "";
+			   {title: '公司名', name: 'name', width:100},
+			   {title: '法人', name: 'legalPerson', width:50},
+			   {title: '注册资金', name: 'money', width:50},
+			   {title: '地址', name: 'address', width:120},
+			   {title: '简介', name: 'content', width:120},
+			   {title: '创建时间', name: 'createTime', width:60},
+			    {title: '状态', name: 'status', width:40, renderer:function(val, item, rowIndex){
+                if(val == 0){
+                         return "<span style='color:#CC9900'>未处理</span>";
+                   }
+                  if(val == 1){
+                      return "<span style='color:green'>通过</span>";
+                  }else if(val == 2){
+                      return "<span style='color:red'>未通过</span>";
+                  }
+              }},
+			   {title: '操作', name: 'id', width:40, renderer:function(val, item, rowIndex){
+				   var buttonStr =
+				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
+				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
-			  
-			  
            ],
         plugins : [
         	$('#paginator11-1').mmPaginator({
@@ -146,4 +116,29 @@ function search(){
 	$('#exampleTableUser').mmGrid().load({"page":1});
 }
 
+//删除一行
+function deleteRowOne(id){
+	layer.confirm('确认删除吗？', {icon: 3, title:'提示'}, function(index){
+		var param = [];
+		param.push({"name":"ids", "value":id});
+    	$.ajax({
+    		type:"POST",
+    		async:true,  //默认true,异步
+    		data:param,
+    		url:"/admin/company/delComplaint",
+    		success:function(data){
+    			if(data == "SUCCESS"){
+    				layer.alert('删除成功！', {icon: 1}, function(indexOk){
+    					search();
+    					layer.close(indexOk);
+       				});
+    			}else{
+    				layer.alert('删除失败！', {icon: 2}, function(indexNo){
+       					layer.close(indexNo);
+       				});
+    			}
+    	    }
+    	});
+	});
+}
 </script>

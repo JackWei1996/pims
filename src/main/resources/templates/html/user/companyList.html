@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>学生管理</title>
+<title>公司管理</title>
 <link type="text/css" rel="stylesheet" th:href="@{/css/page.css}"/>
 <script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.js}"></script>
 <!-- mmGrid -->
@@ -24,24 +24,14 @@
 
 </head>
 <body>
-<div lay-allowclose="true" style="margin-left:15px; width: 98%">
+<div  lay-allowclose="true" style="margin-left:15px; width: 98%">
 <div class="first_div" style="border:none;">
 	<table class="param_table" style="margin-left:10px;" >
 		<tr>
 			<td style="width:150px;">
-				<span>姓名：</span>
+				<span>公司名：</span>
 				<input type="text" id="name" name="name" class="input_0" />
 			</td>
-			<td style="width:150px;">
-					
-					<span>班级：</span>
-				
-					 <div class="layui-input-inline">
-					        <select id="className" name="className" lay-filter="className" lay-verify="required" lay-search="" class="input_0">
-					         	<option value="" selected="selected">---请选择班级---</option>
-					        </select>
-		      		</div>
-				</td>
 			<td style="">
 			<div class="layui-btn-group">
 			  <button class="layui-btn" onclick="search()">查询</button>
@@ -59,19 +49,12 @@
 </body>
 </html>
 
-<script type="text/javascript"  th:inline="javascript">
-var cla = [[${cla}]];
+<script type="text/javascript">
 $(function(){	
-	if(cla){
-		console.log(cla);
-		 for(var i=0;i<cla.length;i++){
-			$("#className").append("<option value='"+cla[i].id+"'>"+cla[i].name+"</option>");
-		 }
-	}
 	//表格
 	$('#exampleTableUser').mmGrid({
     	root:'rows',// 和后台数据保存列一致,对应MMGridPageVoBean rows
-		url:"/ls/getAllStudentByLimit",
+		url:"/company/getAllCompanyByLimit",
     	width: 'auto',
     	height: 'auto',
     	//checkCol: true,
@@ -81,39 +64,29 @@ $(function(){
         indexCol: true,  //索引列
         params:function(){
         	var param = new Object();
-       	
         	param.name = $.trim($("#name").val());
-        	param.id = $.trim($("#userId").val());
-        	param.className = $.trim($("#className").val());
-        	
         	return param;
         },
         cols: [{title: 'ID', name: 'id', width:60, hidden:true},
-			   {title: '姓名', name: 'name', width:50},
-			   {title: '出生日期', name: 'birthday', width:50, renderer:function(val, item, rowIndex){
-				   if(val){
-					   return (""+val).split(" ")[0];
-				   }
-				   return "";
-			   }},
-			   {title: '性别', name: 'sex', width:20, renderer:function(val, item, rowIndex){
-				   if(val == 1){
-					   return "男";
-				   }else if(val == 0){
-					   return "女";
-				   }
-				   return "";
-			   }},
-			   {title: '班级', name: 'className', width:60},
-			   {title: '入学日期', name: 'entrance', width:50, renderer:function(val, item, rowIndex){
-				   if(val){
-					   return (""+val).split(" ")[0];
-				   }
-				   return "";
-			   }},
-			   {title: '操作', name: 'id', width:80, renderer:function(val, item, rowIndex){
-				   var buttonStr = '<span class="layui-btn layui-btn-sm" onclick="editRowOne('+"\'"+item.id+"\'"+')" >修改</span>' +
-				   				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
+			   {title: '公司名', name: 'name', width:100},
+			   {title: '法人', name: 'legalPerson', width:50},
+			   {title: '注册资金', name: 'money', width:50},
+			   {title: '地址', name: 'address', width:120},
+			   {title: '简介', name: 'content', width:120},
+			   {title: '创建时间', name: 'createTime', width:60},
+			    {title: '状态', name: 'status', width:40, renderer:function(val, item, rowIndex){
+                   if(val == 0){
+                            return "<span style='color:#CC9900'>未处理</span>";
+                      }
+                     if(val == 1){
+                         return "<span style='color:green'>通过</span>";
+                     }else if(val == 2){
+                         return "<span style='color:red'>未通过</span>";
+                     }
+                 }},
+			   {title: '操作', name: 'id', width:40, renderer:function(val, item, rowIndex){
+				   var buttonStr =
+				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
            ],
@@ -143,16 +116,12 @@ function deleteRowOne(id){
     		type:"POST",
     		async:true,  //默认true,异步
     		data:param,
-    		url:"/ls/delStudent",
+    		url:"/company/delCompany",
     		success:function(data){
     			if(data == "SUCCESS"){
     				layer.alert('删除成功！', {icon: 1}, function(indexOk){
     					search();
     					layer.close(indexOk);
-       				});
-    			}else if(data=="DontOP"){
-    				layer.alert('删除失败！自己不能删除自己！', {icon: 2}, function(indexNo){
-       					layer.close(indexNo);
        				});
     			}else{
     				layer.alert('删除失败！', {icon: 2}, function(indexNo){
@@ -163,24 +132,13 @@ function deleteRowOne(id){
     	});
 	});
 }
-//增加用户
+
 function addRow(){
 	layer.open({
 	    type: 2,
-	    title: '增加学生',
-	    area: ['55%', '90%'],//宽高
-	    content: '/ls/addStuPage' //iframe的url
+	    title: '增加公司',
+	    area: ['60%', '40%'],
+	    content: '/company/addCompany' //iframe的url
 	});
 }
-//修改标签
-function editRowOne(id){
-	layer.open({
-	    type: 2,
-	    title: '修改学生',
-	    area: ['70%', '90%'],
-	    content: '/ls/addStuPage?id='+id //iframe的url
-	});
-}
-
-
 </script>

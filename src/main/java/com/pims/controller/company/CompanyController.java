@@ -1,17 +1,16 @@
-package com.pims.controller.user;
+package com.pims.controller.company;
 
 
+import com.pims.entity.Company;
 import com.pims.entity.Complaint;
 import com.pims.entity.User;
-import com.pims.service.ComplaintService;
+import com.pims.service.CompanyService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
@@ -23,40 +22,39 @@ import java.util.Date;
  * @author 园区招商管理系统
  * @since 2019-12-30
  */
-@Controller("UserComplaint")
-@RequestMapping("/user/complaint")
-public class ComplaintController {
+@Controller("Company")
+@RequestMapping("/company")
+public class CompanyController {
     @Autowired
-    private ComplaintService complaintService;
+    private CompanyService companyService;
 
-    @RequestMapping("/addComplaint")
-    public String addComplaint() {
-        return "/user/addComplaint";
-    }
     @RequestMapping("/list")
     public String list() {
-        return "/user/complaintList";
+        return "/user/companyList";
+    }
+    @RequestMapping("/addCompany")
+    public String addCompany() {
+        return "/user/addCompany";
     }
 
     @RequestMapping("/getAllCompanyByLimit")
     @ResponseBody
-    public Object getAllCompanyByLimit(Complaint complaint) {
-        if (complaint==null){
-            complaint = new Complaint();
-            complaint.setType(2);
+    public Object getAllCompanyByLimit(Company company) {
+        if (company==null){
+            company = new Company();
         }
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
-        complaint.setUserId(user.getId());
-        return complaintService.getAllComplaintByLimit(complaint);
+        company.setUserId(user.getId());
+        return companyService.getAllCompanyByLimit(company);
     }
 
     @ResponseBody
-    @RequestMapping("/delComplaint")
-    public String delComplaint(String[] ids) {
+    @RequestMapping("/delCompany")
+    public String delWord(String[] ids) {
         try {
             for (String id : ids){
-                complaintService.delById(id);
+                companyService.delById(id);
             }
             return "SUCCESS";
         } catch (Exception e) {
@@ -67,21 +65,19 @@ public class ComplaintController {
 
     @ResponseBody
     @RequestMapping("/add")
-    public String update(Complaint complaint) {
+    public String add(Company company) {
+        company.setStatus(0);
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
-        complaint.setUserId(user.getId());
-        complaint.setStatus(0);
-        complaint.setCreateTime(new Date());
-        complaint.setUserName(user.getName());
-        complaint.setType(2);
+        company.setUserId(user.getId());
+        company.setCreateTime(new Date());
+        company.setViewCount(0);
         try {
-            complaintService.save(complaint);
+            companyService.save(company);
             return "SUCCESS";
         } catch (Exception e) {
             e.printStackTrace();
             return "ERR";
         }
     }
-
 }
