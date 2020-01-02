@@ -25,6 +25,11 @@ public class WordServiceImpl implements WordService {
     private WordMapper wordMapper;
 
     @Override
+    public Word getById(Long id) {
+        return wordMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public void save(Word word) {
         wordMapper.insert(word);
     }
@@ -53,5 +58,10 @@ public class WordServiceImpl implements WordService {
     @Override
     public void delById(String id) {
         wordMapper.deleteByPrimaryKey(Long.valueOf(id));
+    }
+
+    @Override
+    public void view(Long id) {
+        wordMapper.view(id);
     }
 }

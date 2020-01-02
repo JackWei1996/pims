@@ -341,4 +341,9 @@
       </if>
     </where>
   </select>
+  <update id="view">
+      update word  SET
+            view_count = (view_count+1)
+      where id = #{id}
+  </update>
 </mapper>

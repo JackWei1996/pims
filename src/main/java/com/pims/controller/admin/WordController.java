@@ -1,15 +1,18 @@
 package com.pims.controller.admin;
 
 
+import com.pims.entity.Company;
 import com.pims.entity.User;
 import com.pims.entity.UserParameter;
 import com.pims.entity.Word;
 import com.pims.service.WordService;
 import com.pims.service.impl.WordServiceImpl;
 import com.pims.utils.MD5;
+import com.pims.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +36,17 @@ public class WordController {
         this.wordService = wordService;
     }
 
+    @RequestMapping("/xq")
+    public String xq(Long id, Model model) {
+        wordService.view(id);
+        Word word = wordService.getById(id);
+        System.out.println(word.getContent());
+        model.addAttribute("c", word.getContent());
+        model.addAttribute("title", word.getTitle());
+        model.addAttribute("view", word.getViewCount());
+        model.addAttribute("time", MyUtils.getDate2String(word.getCreateTime()));
+        return "/sa/xqWord";
+    }
     @RequestMapping("/list")
     public String list() {
         return "/sa/wordList";

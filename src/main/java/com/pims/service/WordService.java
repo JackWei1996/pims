@@ -13,9 +13,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WordService{
 
+    Word getById(Long id);
+
     void save(Word word);
 
     Object getAllWordByLimit(Word word);
 
     void delById(String id);
+
+    void view(Long id);
 }

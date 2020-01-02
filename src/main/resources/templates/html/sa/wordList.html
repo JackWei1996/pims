@@ -71,8 +71,16 @@ $(function(){
 			   {title: '标题', name: 'title', width:50},
 			   {title: '浏览次数', name: 'viewCount', width:120},
 			   {title: '创建时间', name: 'createTime', width:60},
+			   {title: '类型', name: 'status', width:40, renderer:function(val, item, rowIndex){
+                  if(val == 16){
+                      return "<span style='color:green'>招商结果</span>";
+                  }else {
+                      return "<span style='color:blue'>普通新闻</span>";
+                  }
+              }},
 			   {title: '操作', name: 'id', width:80, renderer:function(val, item, rowIndex){
-				   var buttonStr = '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>' +
+				    '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
            ],
@@ -125,6 +133,15 @@ function editRowOne(id){
 	    title: '修改用户',
 	    area: ['70%', '90%'],
 	    content: '/admin/word/addUserPage?userId='+id //iframe的url
+	});
+}
+
+function xq(id){
+	layer.open({
+	    type: 2,
+	    title: '详情',
+	    area: ['724px', '70%'],
+	    content: '/admin/word/xq?id='+id //iframe的url
 	});
 }
 </script>

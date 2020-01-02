@@ -100,4 +100,6 @@ public interface WordMapper {
     List<Word> getAllWordByLimit(Word word);
 
     int countAllWordByLimit(Word word);
+
+    void view(@Param("id") Long id);
 }
