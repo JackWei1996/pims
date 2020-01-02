@@ -97,7 +97,7 @@ $(function(){
                }},
 			   {title: '创建时间', name: 'createTime', width:60},
 			   {title: '操作', name: 'id', width:40, renderer:function(val, item, rowIndex){
-				   var buttonStr =
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>' +
 				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
@@ -151,6 +151,15 @@ function addRow(){
 	    title: '司法求助',
 	    area: ['40%', '40%'],
 	    content: '/user/complaint/addComplaint' //iframe的url
+	});
+}
+
+function xq(id){
+	layer.open({
+	    type: 2,
+	    title: '详情',
+	    area: ['40%', '80%'],
+	    content: '/admin/complaint/xq?id='+id //iframe的url
 	});
 }
 </script>

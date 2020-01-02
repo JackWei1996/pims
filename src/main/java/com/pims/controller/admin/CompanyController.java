@@ -26,6 +26,13 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
+    @RequestMapping("/xq")
+    public String xq(Long id, Model model) {
+        Company company = companyService.getById(id);
+        model.addAttribute("item", company);
+        return "/sa/xqCompany";
+    }
+
     @RequestMapping("/list")
     public String list() {
         return "/sa/companyList";

@@ -1,6 +1,7 @@
 package com.pims.controller.admin;
 
 
+import com.pims.entity.Company;
 import com.pims.entity.Complaint;
 import com.pims.entity.ComplaintExample;
 import com.pims.mapper.ComplaintMapper;
@@ -24,6 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ComplaintController {
     @Autowired
     private ComplaintService complaintService;
+
+    @RequestMapping("/xq")
+    public String xq(Long id, Model model) {
+        Complaint complaint = complaintService.getById(id);
+        model.addAttribute("item", complaint);
+        return "/sa/xqComplaint";
+    }
 
     @RequestMapping("/list")
     public String list() {

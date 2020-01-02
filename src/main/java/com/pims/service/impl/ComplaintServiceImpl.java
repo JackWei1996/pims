@@ -40,6 +40,11 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
+    public Complaint getById(Long id) {
+        return complaintMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public Object getAllComplaintByLimit(Complaint complaint) {
         int size = 0;
 

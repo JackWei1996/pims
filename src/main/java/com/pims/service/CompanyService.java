@@ -20,4 +20,6 @@ public interface CompanyService{
     void  save(Company company);
 
     void updateById(Company company);
+
+    Company getById(Long id);
 }

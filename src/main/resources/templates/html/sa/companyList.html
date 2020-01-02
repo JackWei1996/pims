@@ -58,6 +58,8 @@
 </html>
 
 <script type="text/javascript">
+
+
 $(function(){	
 	//表格
 	$('#exampleTableUser').mmGrid({
@@ -77,10 +79,10 @@ $(function(){
         	return param;
         },
         cols: [{title: 'ID', name: 'id', width:60, hidden:true},
-			   {title: '公司名', name: 'name', width:100},
-			   {title: '法人', name: 'legalPerson', width:50},
-			   {title: '注册资金', name: 'money', width:50},
-			   {title: '地址', name: 'address', width:120},
+			   {title: '公司名', name: 'name', width:80},
+			   {title: '法人', name: 'legalPerson', width:30},
+			   {title: '注册资金', name: 'money', width:30},
+			   {title: '地址', name: 'address', width:100},
 			   {title: '简介', name: 'content', width:120},
 			   {title: '创建时间', name: 'createTime', width:60},
 			    {title: '状态', name: 'status', width:40, renderer:function(val, item, rowIndex){
@@ -93,8 +95,8 @@ $(function(){
                       return "<span style='color:red'>未通过</span>";
                   }
               }},
-			   {title: '操作', name: 'id', width:40, renderer:function(val, item, rowIndex){
-				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="doOne('+"\'"+item.id+"\'"+')" >处理</span>' +
+			   {title: '操作', name: 'id', width:100, renderer:function(val, item, rowIndex){
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>' + '<span class=" layui-btn layui-btn-sm" onclick="doOne('+"\'"+item.id+"\'"+')" >处理</span>' +
 				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
@@ -148,6 +150,15 @@ function doOne(id){
 	    title: '处理意见',
 	    area: ['40%', '40%'],
 	    content: '/admin/company/doCompany?id='+id //iframe的url
+	});
+}
+
+function xq(id){
+	layer.open({
+	    type: 2,
+	    title: '详情',
+	    area: ['40%', '80%'],
+	    content: '/admin/company/xq?id='+id //iframe的url
 	});
 }
 </script>

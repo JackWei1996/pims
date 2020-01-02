@@ -63,4 +63,9 @@ public class CompanyServiceImpl implements CompanyService {
     public void delById(String id) {
         companyMapper.deleteByPrimaryKey(Long.valueOf(id));
     }
+
+    @Override
+    public Company getById(Long id){
+        return companyMapper.selectByPrimaryKey(id);
+    }
 }

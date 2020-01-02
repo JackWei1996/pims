@@ -20,4 +20,6 @@ public interface ComplaintService{
     void save(Complaint complaint);
 
     void updateById(Complaint complaint);
+
+    Complaint getById(Long id);
 }
