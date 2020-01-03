@@ -21,7 +21,7 @@ package com.pims.entity;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Project implements Serializable {
+public class Project extends BaseBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

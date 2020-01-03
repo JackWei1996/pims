@@ -1,5 +1,6 @@
 package com.pims.service;
 
+import com.pims.entity.Project;
 import com.pims.entity.Word;
 import com.baomidou.mybatisplus.extension.service.IService;
 

@@ -395,4 +395,54 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllByLimit" resultMap="BaseResultMap">
+    select
+    *
+    from project
+    <where>
+      <if test="phone != null and phone!=''">
+        and phone like concat('%',#{phone},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+      <if test="companyId != null and companyId!=''">
+        and company_id = #{companyId}
+      </if>
+    </where>
+    ORDER BY create_time DESC
+    <if test="limit!=null">
+      limit #{page}, #{limit}
+    </if>
+  </select>
+
+  <select id="countAllByLimit" resultType="int">
+    select
+    count(*)
+    from project
+    <where>
+      <if test="phone != null and phone!=''">
+        and phone like concat('%',#{phone},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+      <if test="companyId != null and companyId!=''">
+        and company_id = #{companyId}
+      </if>
+    </where>
+  </select>
+
+  <update id="view">
+    update project  SET
+      view_count = (view_count+1)
+    where id = #{id}
+  </update>
+
+  <update id="apply">
+    update project  SET
+      apply_count = (apply_count+1)
+    where id = #{id}
+  </update>
 </mapper>

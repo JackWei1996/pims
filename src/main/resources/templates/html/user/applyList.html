@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>政策管理</title>
+<title>项目管理</title>
 <link type="text/css" rel="stylesheet" th:href="@{/css/page.css}"/>
 <script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.js}"></script>
 <!-- mmGrid -->
@@ -29,13 +29,13 @@
 	<table class="param_table" style="margin-left:10px;" >
 		<tr>
 			<td style="width:150px;">
-				<span>标题：</span>
-				<input type="text" id="title" name="title" class="input_0" />
+				<span>公司名：</span>
+				<input type="text" id="phone" name="phone" class="input_0" />
 			</td>
-
 			<td style="">
 			<div class="layui-btn-group">
 			  <button class="layui-btn" onclick="search()">查询</button>
+			  <button class="layui-btn" onclick="addRow()">增加</button>
 			</div>
 			</td>
 		</tr>
@@ -50,11 +50,13 @@
 </html>
 
 <script type="text/javascript">
+
+
 $(function(){	
 	//表格
 	$('#exampleTableUser').mmGrid({
     	root:'rows',// 和后台数据保存列一致,对应MMGridPageVoBean rows
-		url:"/admin/word/getAllWordByLimit",
+		url:"/user/project/getApplyList",
     	width: 'auto',
     	height: 'auto',
     	//checkCol: true,
@@ -64,23 +66,29 @@ $(function(){
         indexCol: true,  //索引列
         params:function(){
         	var param = new Object();
-        	param.title = $.trim($("#title").val());
+        	param.phone = $.trim($("#phone").val());
+        	param.status = $.trim($("#status").val());
         	return param;
         },
         cols: [{title: 'ID', name: 'id', width:60, hidden:true},
-			   {title: '标题', name: 'title', width:50},
-			   {title: '浏览次数', name: 'viewCount', width:120},
-			   {title: '创建时间', name: 'createTime', width:60},
-			   {title: '类型', name: 'status', width:40, renderer:function(val, item, rowIndex){
-                  if(val == 16){
-                      return "<span style='color:green'>招商结果</span>";
-                  }else {
-                      return "<span style='color:blue'>普通新闻</span>";
-                  }
-              }},
-			   {title: '操作', name: 'id', width:80, renderer:function(val, item, rowIndex){
-				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>' +
-				    '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
+			   {title: '公司名', name: 'phone', width:40},
+			   {title: '标题', name: 'contact', width:30},
+			   {title: '内容', name: 'content', width:100},
+			   {title: '结束时间', name: 'endTime', width:60},
+			   {title: '查看数', name: 'viewCount', width:60},
+			   {title: '报名数', name: 'applyCount', width:60},
+			   {title: '操作', name: 'id', width:100, renderer:function(val, item, rowIndex){
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>';
+                    var timestamp = parseInt(new Date().getTime());    // 当前时间戳
+                    var endTime = item.endTime.split("T")[0];
+                    var endTimestamp = new Date(endTime).getTime();
+                    console.log(endTime);
+                    console.log(endTimestamp);
+                     console.log(timestamp);
+		            if (endTimestamp - timestamp > 0){
+                        buttonStr += '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="applyProject('+"\'"+item.id+"\'"+')" >报名</span>';
+		            }
+
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
            ],
@@ -101,29 +109,21 @@ function search(){
 	$('#exampleTableUser').mmGrid().load({"page":1});
 }
 
-//删除一行
-function deleteRowOne(id){
-	layer.confirm('确认删除吗？', {icon: 3, title:'提示'}, function(index){
-		var param = [];
-		param.push({"name":"ids", "value":id});
-    	$.ajax({
-    		type:"POST",
-    		async:true,  //默认true,异步
-    		data:param,
-    		url:"/admin/word/delWord",
-    		success:function(data){
-    			if(data == "SUCCESS"){
-    				layer.alert('删除成功！', {icon: 1}, function(indexOk){
-    					search();
-    					layer.close(indexOk);
-       				});
-    			}else{
-    				layer.alert('删除失败！', {icon: 2}, function(indexNo){
-       					layer.close(indexNo);
-       				});
-    			}
-    	    }
-    	});
+function addRow(){
+	layer.open({
+	    type: 2,
+	    title: '增加公司',
+	    area: ['60%', '70%'],
+	    content: '/admin/project/addProject' //iframe的url
+	});
+}
+
+function applyProject(id){
+	layer.open({
+	    type: 2,
+	    title: '报名招商',
+	    area: ['40%', '50%'],
+	    content: '/user/project/applyProject?id='+id //iframe的url
 	});
 }
 
@@ -131,8 +131,8 @@ function xq(id){
 	layer.open({
 	    type: 2,
 	    title: '详情',
-	    area: ['724px', '70%'],
-	    content: '/admin/word/xq?id='+id //iframe的url
+	    area: ['40%', '80%'],
+	    content: '/admin/project/xq?id='+id //iframe的url
 	});
 }
 </script>

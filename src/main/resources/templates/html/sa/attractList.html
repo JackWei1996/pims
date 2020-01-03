@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>政策管理</title>
+<title>报名管理</title>
 <link type="text/css" rel="stylesheet" th:href="@{/css/page.css}"/>
 <script type="text/javascript" th:src="@{/js/jquery/jquery-3.3.1.js}"></script>
 <!-- mmGrid -->
@@ -29,10 +29,22 @@
 	<table class="param_table" style="margin-left:10px;" >
 		<tr>
 			<td style="width:150px;">
-				<span>标题：</span>
-				<input type="text" id="title" name="title" class="input_0" />
+				<span>公司名：</span>
+				<input type="text" id="name" name="name" class="input_0" />
 			</td>
-
+			<td style="width:150px;">
+                <span>标题：</span>
+                <input type="text" id="title" name="title" class="input_0" />
+            </td>
+			<td style="width:150px;">
+                <span>状态：</span>
+                 <select id="status" name="status" class="input_0">
+                     <option value="-1">全部</option>
+                    <option value="0">未处理</option>
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+             </td>
 			<td style="">
 			<div class="layui-btn-group">
 			  <button class="layui-btn" onclick="search()">查询</button>
@@ -50,11 +62,13 @@
 </html>
 
 <script type="text/javascript">
+
+
 $(function(){	
 	//表格
 	$('#exampleTableUser').mmGrid({
     	root:'rows',// 和后台数据保存列一致,对应MMGridPageVoBean rows
-		url:"/admin/word/getAllWordByLimit",
+		url:"/admin/attract/getAllByLimit",
     	width: 'auto',
     	height: 'auto',
     	//checkCol: true,
@@ -64,23 +78,30 @@ $(function(){
         indexCol: true,  //索引列
         params:function(){
         	var param = new Object();
+        	param.name = $.trim($("#name").val());
         	param.title = $.trim($("#title").val());
+        	param.status = $.trim($("#status").val());
         	return param;
         },
         cols: [{title: 'ID', name: 'id', width:60, hidden:true},
-			   {title: '标题', name: 'title', width:50},
-			   {title: '浏览次数', name: 'viewCount', width:120},
-			   {title: '创建时间', name: 'createTime', width:60},
-			   {title: '类型', name: 'status', width:40, renderer:function(val, item, rowIndex){
-                  if(val == 16){
-                      return "<span style='color:green'>招商结果</span>";
-                  }else {
-                      return "<span style='color:blue'>普通新闻</span>";
+			   {title: '公司名', name: 'name', width:40},
+			   {title: '标题', name: 'title', width:30},
+			   {title: '报名人', name: 'userName', width:60},
+                {title: '报名时间', name: 'createTime', width:60},
+			    {title: '状态', name: 'status', width:40, renderer:function(val, item, rowIndex){
+                if(val == 0){
+                         return "<span style='color:#CC9900'>未处理</span>";
+                   }
+                  if(val == 1){
+                      return "<span style='color:green'>通过</span>";
+                  }else if(val == 2){
+                      return "<span style='color:red'>未通过</span>";
                   }
               }},
-			   {title: '操作', name: 'id', width:80, renderer:function(val, item, rowIndex){
-				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>' +
-				    '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
+			   {title: '操作', name: 'id', width:100, renderer:function(val, item, rowIndex){
+				   var buttonStr ='<span class=" layui-btn layui-btn-sm" onclick="xq('+"\'"+item.id+"\'"+')" >详情</span>'
+				   + '<span class=" layui-btn layui-btn-sm" onclick="doOne('+"\'"+item.id+"\'"+')" >处理</span>' +
+				   '<span class=" layui-btn layui-btn-danger layui-btn-sm" onclick="deleteRowOne('+"\'"+item.id+"\'"+')" >删除</span>';
 				   return "<div class='span_btus' >" + buttonStr + "</div>";
 			   }}
            ],
@@ -110,7 +131,7 @@ function deleteRowOne(id){
     		type:"POST",
     		async:true,  //默认true,异步
     		data:param,
-    		url:"/admin/word/delWord",
+    		url:"/admin/attract/del",
     		success:function(data){
     			if(data == "SUCCESS"){
     				layer.alert('删除成功！', {icon: 1}, function(indexOk){
@@ -127,12 +148,21 @@ function deleteRowOne(id){
 	});
 }
 
+function doOne(id){
+	layer.open({
+	    type: 2,
+	    title: '处理意见',
+	    area: ['40%', '40%'],
+	    content: '/admin/attract/doAttract?id='+id //iframe的url
+	});
+}
+
 function xq(id){
 	layer.open({
 	    type: 2,
 	    title: '详情',
-	    area: ['724px', '70%'],
-	    content: '/admin/word/xq?id='+id //iframe的url
+	    area: ['40%', '80%'],
+	    content: '/admin/attract/xq?id='+id //iframe的url
 	});
 }
 </script>

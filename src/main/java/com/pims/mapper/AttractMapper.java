@@ -3,6 +3,8 @@ package com.pims.mapper;
 import com.pims.entity.Attract;
 import com.pims.entity.AttractExample;
 import java.util.List;
+
+import com.pims.entity.Word;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -95,4 +97,8 @@ public interface AttractMapper {
      * @mbg.generated Tue Dec 31 16:11:46 CST 2019
      */
     int updateByPrimaryKey(Attract record);
+
+    List<Word> getAllByLimit(Attract attract);
+
+    int countAllByLimit(Attract attract);
 }

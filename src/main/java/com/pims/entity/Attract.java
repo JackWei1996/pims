@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Attract implements Serializable {
+public class Attract extends BaseBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,10 @@ public class Attract implements Serializable {
      */
     private Long userId;
 
+    private String userName;
+
+    private String name;
+    private String title;
     /**
      * 项目id
      */

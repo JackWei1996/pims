@@ -12,6 +12,9 @@
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -315,4 +318,54 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllByLimit" resultMap="BaseResultMap">
+    SELECT a.*, u.name userName, p.phone name, p.contact title
+    FROM attract a
+    LEFT JOIN user u
+    ON a.user_id = u.id
+    LEFT JOIN project p
+    ON a.project_id = p.id
+    <where>
+      <if test="name != null and name!=''">
+        and p.phone like concat('%',#{name},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+      <if test="title != null and title!=''">
+        and p.contact like concat('%',#{title},'%')
+      </if>
+      <if test="userId != null and userId!=-1">
+        and a.user_id = #{userId}
+      </if>
+    </where>
+    ORDER BY create_time DESC
+    <if test="limit!=null">
+      limit #{page}, #{limit}
+    </if>
+  </select>
+
+  <select id="countAllByLimit" resultType="int">
+    SELECT a.*, u.name userName, p.phone name, p.contact title
+    FROM attract a
+    LEFT JOIN user u
+    ON a.user_id = u.id
+    LEFT JOIN project p
+    ON a.project_id = p.id
+    <where>
+      <if test="name != null and name!=''">
+        and p.phone like concat('%',#{name},'%')
+      </if>
+      <if test="status != null and status!=-1">
+        and status = #{status}
+      </if>
+      <if test="title != null and title!=''">
+        and p.contact like concat('%',#{title},'%')
+      </if>
+      <if test="userId != null and userId!=-1">
+        and a.user_id = #{userId}
+      </if>
+    </where>
+  </select>
 </mapper>
