@@ -347,7 +347,7 @@
   </select>
 
   <select id="countAllByLimit" resultType="int">
-    SELECT a.*, u.name userName, p.phone name, p.contact title
+    SELECT count(*)
     FROM attract a
     LEFT JOIN user u
     ON a.user_id = u.id

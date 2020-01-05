@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ContractService{
 
+    Contract getById(Long id);
+
+    void save(Contract contract);
+
+    Object getAllByLimit(Contract contract);
+
+    void delById(String id);
 }
